@@ -10,7 +10,7 @@ def compute_asymptotic_fitness(
         target_string: str,
         number_of_runs: int,
         population_size: int,
-        fecondity_rate: int,
+        fertility_rate: int,
         mutation_probability_space: list,
         maximum_rank: int) -> callable:
     """
@@ -18,7 +18,7 @@ def compute_asymptotic_fitness(
     moyenne pour un jeu de probabilités de mutations données.
     """
     target = target_being(target_string)
-    survival_percentile = 1 / fecondity_rate
+    survival_percentile = 1 / fertility_rate
 
     def initial_population() -> Population:
         return random_population(population_size, len(target.genotype))
@@ -34,7 +34,7 @@ def compute_asymptotic_fitness(
         def lifecycle(population: Population) -> Population:
             return select_over_all_livings(
                 population,
-                lambda b: being_lifecycle(b, mutation_distribution, fecondity_rate),
+                lambda b: being_lifecycle(b, mutation_distribution, fertility_rate),
                 lambda p: truncate(p, fitness, survival_percentile))
 
         def describe_terminal_generation() -> (int, float, Being):
