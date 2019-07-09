@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e2162fb8-195b-4c16-a5cb-7f5d0a97c2f8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/genetic_algorithm/application/generations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genetic_algorithm/application/optimal_mutation_rate.py" beforeDir="false" afterPath="$PROJECT_DIR$/genetic_algorithm/application/optimal_mutation_rate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/genetic_algorithm/selection.py" beforeDir="false" afterPath="$PROJECT_DIR$/genetic_algorithm/selection.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genetic_algorithm/application/generations.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/genetic_algorithm/scenario/unicode.py" beforeDir="false" afterPath="$PROJECT_DIR$/genetic_algorithm/scenario/unicode.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/show_evolution.py" beforeDir="false" afterPath="$PROJECT_DIR$/show_evolution.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,7 +15,20 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/show_evolution.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="561">
+              <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+              <folding>
+                <element signature="e#0#22#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -26,6 +41,7 @@
     <findStrings>
       <find>mutation_distribution</find>
       <find>fecondity_rate</find>
+      <find>fertility_rate</find>
     </findStrings>
     <replaceStrings>
       <replace>fertility_rate</replace>
@@ -41,18 +57,10 @@
         <option value="$PROJECT_DIR$/genetic_algorithm/application/show_evolution.py" />
         <option value="$PROJECT_DIR$/genetic_algorithm/application/optimal_mutation_rate.py" />
         <option value="$PROJECT_DIR$/genetic_algorithm/selection.py" />
+        <option value="$PROJECT_DIR$/README" />
         <option value="$PROJECT_DIR$/genetic_algorithm/application/generations.py" />
         <option value="$PROJECT_DIR$/show_evolution.py" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/ga.iml" />
-        <option value="$PROJECT_DIR$/.idea/misc.xml" />
-        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
-        <option value="$PROJECT_DIR$/.idea/modules.xml" />
+        <option value="$PROJECT_DIR$/genetic_algorithm/scenario/unicode.py" />
       </list>
     </option>
   </component>
@@ -91,6 +99,9 @@
       </pane>
       <pane id="Scope" />
     </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -170,7 +181,7 @@
   <component name="ToolWindowManager">
     <frame x="1912" y="22" width="1936" height="1066" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.24973656" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14225501" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -180,8 +191,8 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.3290461" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3290461" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -208,6 +219,35 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout-to-restore>
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="true" />
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/genetic_algorithm/application/optimal_mutation_rate.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -216,13 +256,6 @@
           <folding>
             <element signature="e#0#22#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/genetic_algorithm/scenario/unicode.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="50" selection-start-line="49" selection-end-line="50" />
         </state>
       </provider>
     </entry>
@@ -243,16 +276,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/show_evolution.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/genetic_algorithm/selection.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -260,12 +283,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/genetic_algorithm/application/generations.py">
+    <entry file="file://$PROJECT_DIR$/genetic_algorithm/scenario/unicode.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+        <state relative-caret-position="184">
+          <caret line="31" column="14" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/genetic_algorithm/application/generations.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/show_evolution.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
           <folding>
-            <element signature="e#0#72#0" expanded="true" />
+            <element signature="e#0#22#0" expanded="true" />
           </folding>
         </state>
       </provider>

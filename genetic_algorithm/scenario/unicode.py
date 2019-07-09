@@ -1,7 +1,6 @@
 from typing import List
 from binascii import hexlify
 
-from genetic_algorithm.selection import bytearray_distance, bytearray_bit_distance
 from genetic_algorithm.mutation import random_mutation
 from genetic_algorithm.genome import random_genome
 
@@ -70,6 +69,12 @@ def clone_being(being: Being) -> Being:
     """
     genome_copy = bytearray(being.genotype)
     return Being(genome_copy, express_genome_as_string(genome_copy))
+
+
+def random_being(genome_size: int) -> Being:
+    """Individu aléatoire."""
+    genome = random_genome(genome_size)
+    return Being(genome, express_genome_as_string(genome))
 
 
 def target_being(string: str) -> Being:
