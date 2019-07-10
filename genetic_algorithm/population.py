@@ -14,7 +14,3 @@ def select_over_all_livings(population: list, being_lifecycle: callable, selecti
     being_lifecycles = map(being_lifecycle, population)
     all_lives = list(chain.from_iterable(being_lifecycles))
     return selection(all_lives)
-
-
-def any_perfect_being_in_population(population: list, fitness: callable) -> bool:
-    return not population or any(fitness(being) == 0 for being in population)

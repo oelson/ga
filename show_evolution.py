@@ -3,8 +3,8 @@ from sys import stdout
 from genetic_algorithm.mutation import no_mutation, random_byte_replacement, flit_random_bit_in_random_byte
 
 from genetic_algorithm.selection import bytearray_distance, truncate
-from genetic_algorithm.population import generate, select_over_all_livings, any_perfect_being_in_population
-from genetic_algorithm.scenario.unicode import Being, Population, target_being, random_being, being_lifecycle
+from genetic_algorithm.population import generate, select_over_all_livings
+from genetic_algorithm.scenario.unicode import Being, Population, target_being, random_being, mutate_and_clone
 
 
 def fitness(b: Being):
@@ -16,11 +16,11 @@ def select(p: Population):
 
 
 def stop(r: int, p: Population) -> bool:
-    return r == maximum_rank or any_perfect_being_in_population(p, fitness)
+    return r == maximum_rank or not population or any(fitness(being) == 0 for being in p)
 
 
 def life(b: Being):
-    return being_lifecycle(b, mutation_distribution, fertility_rate)
+    return mutate_and_clone(b, mutation_distribution, fertility_rate)
 
 
 def lifecycle(p: Population) -> Population:
@@ -28,8 +28,8 @@ def lifecycle(p: Population) -> Population:
 
 
 target = target_being('le cadavre exquis boira le vin nouveau')
-mutation_probability = .5
-mutation_function = flit_random_bit_in_random_byte
+mutation_probability = .25
+mutation_function = random_byte_replacement
 fertility_rate = 2
 survival_percentile = 1 / fertility_rate
 initial_population_size = 30

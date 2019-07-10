@@ -46,12 +46,12 @@ def deduce_genome_from_string(string: str) -> bytearray:
     return bytearray(string.encode('UTF-8', 'replace'))
 
 
-def being_lifecycle(being: Being, mutation_distribution: dict, fecondity_rate: int) -> Population:
+def mutate_and_clone(being: Being, mutation_distribution: dict, fertility_rate: int) -> Population:
     """
     Le cycle de vie d'un individu est l'ensemble des individus qui procèdent de sa vie.
     """
     being = mutate_being(being, mutation_distribution)
-    return [clone_being(being) for _ in range(fecondity_rate)]
+    return [clone_being(being) for _ in range(fertility_rate)]
 
 
 def mutate_being(being: Being, mutation_distribution: dict) -> Being:

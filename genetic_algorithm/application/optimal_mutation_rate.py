@@ -2,8 +2,8 @@ from numpy import mean
 
 from genetic_algorithm.selection import truncate, bytearray_bit_distance
 from genetic_algorithm.mutation import no_mutation, random_byte_replacement, flit_random_bit_in_random_byte
-from genetic_algorithm.population import generate, select_over_all_livings, any_perfect_being_in_population
-from genetic_algorithm.scenario.unicode import Being, Population, random_population, target_being, being_lifecycle
+from genetic_algorithm.population import generate, select_over_all_livings
+from genetic_algorithm.scenario.unicode import Being, Population, random_population, target_being, mutate_and_clone
 
 
 def compute_asymptotic_fitness(
@@ -28,13 +28,13 @@ def compute_asymptotic_fitness(
         # return bytearray_distance(being.genotype, target.genotype)
 
     def stop(rank: int, population: Population) -> bool:
-        return rank == maximum_rank or any_perfect_being_in_population(population, fitness)
+        return rank == maximum_rank or not population or any(fitness(being) == 0 for being in population)
 
     def compute_average_asymptotic_fitness(mutation_distribution: dict):
         def lifecycle(population: Population) -> Population:
             return select_over_all_livings(
                 population,
-                lambda b: being_lifecycle(b, mutation_distribution, fertility_rate),
+                lambda b: mutate_and_clone(b, mutation_distribution, fertility_rate),
                 lambda p: truncate(p, fitness, survival_percentile))
 
         def describe_terminal_generation() -> (int, float, Being):
