@@ -9,6 +9,11 @@ def truncate(population: list, fitness: callable, survival_percentile: float) ->
 
 
 def letter_distance(a: str, b: str) -> int:
+    """Compte le nombre de lettres différentes entre deux textes de mêmes tailles."""
+    return sum(1 for la, lb in zip(a, b) if a != b)
+
+
+def letter_distance_diff(a: str, b: str) -> int:
     """Compte le nombre de lettres différentes entre deux textes qui peuvent être de tailles différentes."""
     return sum(1 for charinfo in ndiff(a, b) if not charinfo.startswith(' '))
 

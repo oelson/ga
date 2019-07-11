@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e2162fb8-195b-4c16-a5cb-7f5d0a97c2f8" name="Default Changelist" comment="simplify show_evolution" />
+    <list default="true" id="e2162fb8-195b-4c16-a5cb-7f5d0a97c2f8" name="Default Changelist" comment="simplify show_evolution">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genetic_algorithm/application/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/genetic_algorithm/application/optimal_mutation_rate.py" beforeDir="false" afterPath="$PROJECT_DIR$/find_optimal_mutation_rate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genetic_algorithm/mutation.py" beforeDir="false" afterPath="$PROJECT_DIR$/genetic_algorithm/mutation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genetic_algorithm/scenario/unicode.py" beforeDir="false" afterPath="$PROJECT_DIR$/genetic_algorithm/scenario/unicode.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genetic_algorithm/selection.py" beforeDir="false" afterPath="$PROJECT_DIR$/genetic_algorithm/selection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/print_optimal_mutation_rate.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/show_evolution.py" beforeDir="false" afterPath="$PROJECT_DIR$/show_evolution.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +25,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/show_evolution.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+            <state relative-caret-position="218">
+              <caret line="28" column="64" lean-forward="true" selection-start-line="28" selection-start-column="64" selection-end-line="28" selection-end-column="64" />
               <folding>
                 <element signature="e#0#22#0" expanded="true" />
               </folding>
@@ -28,8 +37,25 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/genetic_algorithm/scenario/unicode.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="36" column="11" lean-forward="true" selection-start-line="36" selection-start-column="11" selection-end-line="36" selection-end-column="11" />
+            <state>
+              <caret column="20" lean-forward="true" selection-start-column="20" selection-end-column="20" />
+              <folding>
+                <element signature="e#180#550#0" />
+                <element signature="e#640#789#0" />
+                <element signature="e#853#990#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/find_optimal_mutation_rate.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="113">
+              <caret line="11" column="34" lean-forward="true" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+              <folding>
+                <element signature="e#0#32#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -48,6 +74,7 @@
       <find>mutation_distribution</find>
       <find>fertility_rate</find>
       <find>fecondity_rate</find>
+      <find>mutation_probability</find>
     </findStrings>
     <replaceStrings>
       <replace>fertility_rate</replace>
@@ -61,14 +88,17 @@
       <list>
         <option value="$PROJECT_DIR$/show.py" />
         <option value="$PROJECT_DIR$/genetic_algorithm/application/show_evolution.py" />
-        <option value="$PROJECT_DIR$/genetic_algorithm/selection.py" />
         <option value="$PROJECT_DIR$/README" />
         <option value="$PROJECT_DIR$/genetic_algorithm/application/generations.py" />
         <option value="$PROJECT_DIR$/genetic_algorithm/application/optimal_mutation_rate.py" />
         <option value="$PROJECT_DIR$/genetic_algorithm/population.py" />
-        <option value="$PROJECT_DIR$/show_evolution.py" />
-        <option value="$PROJECT_DIR$/genetic_algorithm/scenario/unicode.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/genetic_algorithm/mutation.py" />
+        <option value="$PROJECT_DIR$/genetic_algorithm/selection.py" />
+        <option value="$PROJECT_DIR$/print_optimal_mutation_rate.py" />
+        <option value="$PROJECT_DIR$/genetic_algorithm/scenario/unicode.py" />
+        <option value="$PROJECT_DIR$/show_evolution.py" />
+        <option value="$PROJECT_DIR$/find_optimal_mutation_rate.py" />
       </list>
     </option>
   </component>
@@ -98,12 +128,6 @@
               <item name="ga" type="b2602c69:ProjectViewProjectNode" />
               <item name="ga" type="462c0819:PsiDirectoryNode" />
               <item name="genetic_algorithm" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ga" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ga" type="462c0819:PsiDirectoryNode" />
-              <item name="genetic_algorithm" type="462c0819:PsiDirectoryNode" />
               <item name="scenario" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -116,6 +140,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="ToolWindowStructure.ShowToolbar" value="false" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RunDashboard">
@@ -130,7 +155,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.show_evolution">
+  <component name="RunManager" selected="Python.print_optimal_mutation_rate">
     <configuration name="print_optimal_mutation_rate" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ga" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -143,7 +168,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/print_optimal_mutation_rate.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/find_optimal_mutation_rate.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -175,8 +200,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.show_evolution" />
         <item itemvalue="Python.print_optimal_mutation_rate" />
+        <item itemvalue="Python.show_evolution" />
       </list>
     </recent_temporary>
   </component>
@@ -204,12 +229,31 @@
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49829352" visible="true" weight="0.14164905" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49829352" visible="true" weight="0.14164905" />
       <window_info id="Structure" order="1" sideWeight="0.5017065" side_tool="true" weight="0.14225501" />
       <window_info id="Favorites" order="2" sideWeight="0.5017065" side_tool="true" weight="0.14225501" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3290461" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.12993631" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32866243" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.277707" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49894625" visible="true" weight="0.37070063" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32866243" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50105375" side_tool="true" weight="0.37191853" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3299363" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49829352" visible="true" weight="0.14164905" />
+      <window_info id="Structure" order="1" sideWeight="0.5017065" side_tool="true" weight="0.14225501" />
+      <window_info id="Favorites" order="2" sideWeight="0.5017065" side_tool="true" weight="0.14225501" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32866243" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.35031846" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -217,26 +261,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49894625" weight="0.37070063" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32866243" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50105375" side_tool="true" weight="0.37191853" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24973656" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3290461" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3290461" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3299363" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -288,58 +313,14 @@
     <option name="LAST_COMMIT_MESSAGE" value="simplify show_evolution" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/genetic_algorithm/mutation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="19" column="34" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/genetic_algorithm/selection.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="10" column="19" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/genetic_algorithm/application/generations.py" />
-    <entry file="file://$PROJECT_DIR$/print_optimal_mutation_rate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="23" lean-forward="true" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
-          <folding>
-            <element signature="e#188#278#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/genetic_algorithm/application/optimal_mutation_rate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
-          <caret line="30" column="57" selection-start-line="30" selection-start-column="57" selection-end-line="30" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/genetic_algorithm/population.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/show_evolution.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -350,10 +331,66 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/genetic_algorithm/mutation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="8" column="37" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/genetic_algorithm/selection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="16" column="72" lean-forward="true" selection-start-line="16" selection-start-column="72" selection-end-line="16" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/genetic_algorithm/application/optimal_mutation_rate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="430">
+          <caret line="84" selection-start-line="2" selection-end-line="84" />
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/typing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="1873" column="6" selection-start-line="1873" selection-start-column="6" selection-end-line="1873" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/show_evolution.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="28" column="64" lean-forward="true" selection-start-line="28" selection-start-column="64" selection-end-line="28" selection-end-column="64" />
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/find_optimal_mutation_rate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="11" column="34" lean-forward="true" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/genetic_algorithm/scenario/unicode.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="36" column="11" lean-forward="true" selection-start-line="36" selection-start-column="11" selection-end-line="36" selection-end-column="11" />
+        <state>
+          <caret column="20" lean-forward="true" selection-start-column="20" selection-end-column="20" />
+          <folding>
+            <element signature="e#180#550#0" />
+            <element signature="e#640#789#0" />
+            <element signature="e#853#990#0" />
+          </folding>
         </state>
       </provider>
     </entry>

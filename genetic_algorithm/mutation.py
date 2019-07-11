@@ -2,9 +2,12 @@ from random import choices
 from .genome import random_byte_index, random_byte, random_bit_index_in_byte
 
 
-def random_mutation(distribution: dict) -> callable:
-    mutation, *_ = choices(list(distribution.keys()), list(distribution.values()))
-    return mutation
+def random_mutations(maximum_number_of_mutations, distribution: dict) -> callable:
+    mutations = choices(
+        population=list(distribution.keys()),
+        weights=list(distribution.values()),
+        k=maximum_number_of_mutations)
+    return mutations
 
 
 def no_mutation(genotype: bytearray) -> bytearray:

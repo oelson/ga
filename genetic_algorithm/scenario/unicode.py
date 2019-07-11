@@ -1,7 +1,7 @@
 from typing import List
 from binascii import hexlify
 
-from genetic_algorithm.mutation import random_mutation
+from genetic_algorithm.mutation import random_mutations
 from genetic_algorithm.genome import random_genome
 
 
@@ -24,14 +24,6 @@ class Being:
 Population = List[Being]
 
 
-def random_population(population_size, genome_size) -> Population:
-    """
-    Population aléatoire de dimension et de taille de génome donnés.
-    """
-    genomes = (random_genome(genome_size) for _ in range(population_size))
-    return [Being(g, express_genome_as_string(g)) for g in genomes]
-
-
 def express_genome_as_string(genome: bytearray) -> str:
     """
     Exprime un génome en tant que chaîne de caractères unicode via un décodage UTF-8.
@@ -46,20 +38,24 @@ def deduce_genome_from_string(string: str) -> bytearray:
     return bytearray(string.encode('UTF-8', 'replace'))
 
 
-def mutate_and_clone(being: Being, mutation_distribution: dict, fertility_rate: int) -> Population:
+def mutate_and_clone(
+        being: Being,
+        maximum_number_of_mutations: int,
+        mutation_distribution: dict,
+        fertility_rate: int) -> Population:
     """
     Le cycle de vie d'un individu est l'ensemble des individus qui procèdent de sa vie.
     """
-    being = mutate_being(being, mutation_distribution)
+    being = mutate_being(being, maximum_number_of_mutations, mutation_distribution)
     return [clone_being(being) for _ in range(fertility_rate)]
 
 
-def mutate_being(being: Being, mutation_distribution: dict) -> Being:
+def mutate_being(being: Being, maximum_number_of_mutations: int, mutation_distribution: dict) -> Being:
     """
     Mutation aléatoire d'un individu selon une loi donnée.
     """
-    mutation = random_mutation(mutation_distribution)
-    being.genotype = mutation(being.genotype)
+    for mutation in random_mutations(maximum_number_of_mutations, mutation_distribution):
+        being.genotype = mutation(being.genotype)
     return being
 
 
