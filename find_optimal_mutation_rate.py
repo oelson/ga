@@ -2,8 +2,8 @@ from numpy import linspace, mean
 
 from genetic_algorithm.selection import truncate, bytearray_bit_distance
 from genetic_algorithm.mutation import no_mutation, random_byte_replacement, flit_random_bit_in_random_byte
-from genetic_algorithm.population import generate, select_over_all_livings
-from genetic_algorithm.scenario.unicode import Being, Population, random_being, target_being, mutate_and_clone
+from genetic_algorithm.population import Being, Population, generate, select_over_all_livings
+from genetic_algorithm.scenario.unicode import random_being, target_being, mutate_and_clone
 
 
 # TODO Grouper ce qui est commun avec l'autre script dans une classe qui expose ces fonctions

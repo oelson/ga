@@ -1,23 +1,6 @@
-from typing import List
-from binascii import hexlify
-
 from genetic_algorithm.mutation import random_mutations
 from genetic_algorithm.genome import random_genome
-
-
-class Being:
-    def __init__(self, genotype: bytearray, phenotype: str):
-        self.genotype = genotype
-        self.phenotype = phenotype
-
-    def __str__(self):
-        return f'{{phenotype:{repr(self.phenotype)}, genotype:{hexlify(self.genotype)}}}'
-
-    def __repr__(self):
-        return self.__str__()
-
-
-Population = List[Being]
+from genetic_algorithm.population import Being, Population
 
 
 def express_genome_as_string(genome: bytearray) -> str:
