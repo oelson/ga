@@ -10,7 +10,7 @@ def truncate(population: list, fitness: callable, survival_percentile: float) ->
 
 def letter_distance(a: str, b: str) -> int:
     """Compte le nombre de lettres différentes entre deux textes de mêmes tailles."""
-    return sum(1 for la, lb in zip(a, b) if a != b)
+    return sum(1 for la, lb in zip(a, b) if la != lb)
 
 
 def letter_distance_diff(a: str, b: str) -> int:
