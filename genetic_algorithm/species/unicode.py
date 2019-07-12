@@ -1,4 +1,5 @@
-from genetic_algorithm.genome import random_genome
+from random import randint
+
 from genetic_algorithm.population import Being, Population
 
 
@@ -19,6 +20,10 @@ def clone_being(being: Being) -> Being:
 def random_being(genome_size: int) -> Being:
     genome = random_genome(genome_size)
     return TextBeing(genome)
+
+
+def random_genome(size: int) -> bytearray:
+    return bytearray(randint(0x00, 0xff) for _ in range(size))
 
 
 def target_text(string: str) -> Being:
