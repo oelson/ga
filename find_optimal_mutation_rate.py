@@ -2,11 +2,11 @@ from numpy import mean
 from itertools import product
 
 from genetic_algorithm.mutation import no_mutation, flit_random_bit_in_random_byte
-from genetic_algorithm.scenario.converge import RandomToTarget
+from genetic_algorithm.scenario.converge import ConvergeToTarget
 from genetic_algorithm.species.unicode import target_text, random_being
 
 
-def measure(run: RandomToTarget):
+def measure(run: ConvergeToTarget):
     generations = run.generations()
     *_, (last_rank, last_generation) = generations
     asymptotic_fitness = float(mean([run.fitness(being) for being in last_generation]))
@@ -14,7 +14,7 @@ def measure(run: RandomToTarget):
 
 
 def average(configuration, number_of_runs):
-    runs = [RandomToTarget(**configuration) for _ in range(number_of_runs)]
+    runs = [ConvergeToTarget(**configuration) for _ in range(number_of_runs)]
     measures = [measure(run) for run in runs]
 
     average_asymptotic_fitness = float(mean([f for f, _, _ in measures]))

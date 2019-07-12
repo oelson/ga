@@ -1,5 +1,21 @@
 from difflib import ndiff
 from itertools import zip_longest
+from typing import Callable
+
+from genetic_algorithm.population import Being
+
+Fitness = Callable[[Being], float]
+
+
+class EfficientFitness:
+    def __init__(self, fitness: Fitness):
+        self.fitness = fitness
+        self.cache = {}
+
+    def __call__(self, being: Being):
+        if being not in self.cache:
+            self.cache[being] = self.fitness(being)
+        return self.cache[being]
 
 
 def truncate(population: list, fitness: callable, survival_percentile: float) -> list:

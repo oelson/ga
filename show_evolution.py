@@ -1,13 +1,13 @@
 from sys import stdout
 
 from genetic_algorithm.mutation import flit_random_bit_in_random_byte, no_mutation
-from genetic_algorithm.scenario.converge import RandomToTarget
+from genetic_algorithm.scenario.converge import ConvergeToTarget
 from genetic_algorithm.species.unicode import target_text, random_being
 
 mutation_probability = 1 / 5
 target = target_text('le cadavre exquis boira le vin nouveau')
 
-convergence = RandomToTarget(
+convergence = ConvergeToTarget(
     target=target,
     survival_percentile=1 / 2,
     initial_population=[random_being(len(target.genotype)) for _ in range(50)],

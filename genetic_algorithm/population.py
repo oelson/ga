@@ -5,6 +5,7 @@ from itertools import chain
 
 class Being:
     def __init__(self, genotype: bytearray, phenotype):
+        self.initial_genotype = bytes(genotype)
         self.genotype = genotype
         self.phenotype = phenotype
 
@@ -16,6 +17,12 @@ class Being:
 
     def __repr__(self):
         return self.__str__()
+
+    def __hash__(self):
+        return hash(self.initial_genotype)
+
+    def __eq__(self, other):
+        return self.initial_genotype == other.initial_genotype
 
 
 Population = List[Being]

@@ -1,9 +1,9 @@
 from genetic_algorithm.mutation import mutate_being
-from genetic_algorithm.selection import bytearray_bit_distance, truncate
+from genetic_algorithm.selection import bytearray_bit_distance, letter_distance_diff, truncate, EfficientFitness
 from genetic_algorithm.population import Being, Population, generate, select_over_all_livings
 
 
-class RandomToTarget:
+class ConvergeToTarget:
     def __init__(
             self,
             target: Being,
@@ -20,9 +20,11 @@ class RandomToTarget:
         self.maximum_number_of_mutations = maximum_number_of_mutations
         self.mutation_distribution = mutation_distribution
         self.maximum_rank = maximum_rank
+        self.fitness = EfficientFitness(self._fitness)
 
-    def fitness(self, b: Being) -> float:
+    def _fitness(self, b: Being) -> float:
         return bytearray_bit_distance(b.genotype, self.target.genotype)
+        return letter_distance_diff(b.phenotype, self.target.phenotype)
 
     def select(self, p: Population) -> Population:
         return truncate(p, self.fitness, self.survival_percentile)
