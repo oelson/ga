@@ -1,4 +1,5 @@
-from numpy import linspace, mean
+from numpy import mean
+from itertools import product
 
 from genetic_algorithm.mutation import no_mutation, flit_random_bit_in_random_byte
 from genetic_algorithm.scenario.converge import ConvergeToTarget
@@ -11,35 +12,58 @@ def measure(run: ConvergeToTarget):
     return last_rank, asymptotic_fitness, last_generation[0]
 
 
-def average(runs):
+def average(configuration, number_of_runs):
+    runs = [ConvergeToTarget(**configuration) for _ in range(number_of_runs)]
     measures = [measure(run) for run in runs]
+
     average_asymptotic_fitness = float(mean([f for f, _, _ in measures]))
     average_maximal_rank = float(mean([r for _, r, _ in measures]))
     sample_being = next(b for _, _, b in measures)
+
     return average_asymptotic_fitness, average_maximal_rank, sample_being
 
 
+target_string = 'cadavre'
+mutation_function = flit_random_bit_in_random_byte
 number_of_runs_per_simulation = 3
-mutation_probability_space = list(linspace(0.01, 0.99, 3))
 
-for mutation_probability in mutation_probability_space:
-    mutation_distribution = {
-        no_mutation: 1 - mutation_probability,
-        flit_random_bit_in_random_byte: mutation_probability,
+mutation_probability_space = [.9, .5, .1]
+maximum_number_of_mutations_space = [1, 2, 3, 4]
+initial_population_size_space = [20, 50]
+survival_percentile_space = [1 / 2, 1 / 3, 1 / 4]
+
+configuration_space = product(
+    maximum_number_of_mutations_space,
+    mutation_probability_space,
+    survival_percentile_space,
+    initial_population_size_space
+)
+
+for (
+        maximum_number_of_mutations,
+        mutation_probability,
+        survival_percentile,
+        initial_population_size
+) in configuration_space:
+    configuration = {
+        'target_string': target_string,
+        'initial_population_size': initial_population_size,
+        'survival_percentile': survival_percentile,
+        'maximum_number_of_mutations': maximum_number_of_mutations,
+        'mutation_distribution': {
+            no_mutation: 1 - mutation_probability,
+            mutation_function: mutation_probability,
+        },
+        'maximum_rank': 1000
     }
 
-    runs = [ConvergeToTarget(
-        target_string='cadavre',
-        survival_percentile=1 / 2,
-        initial_population_size=50,
-        maximum_number_of_mutations=2,
-        mutation_distribution=mutation_distribution,
-        maximum_rank=100
-    ) for _ in range(number_of_runs_per_simulation)]
+    print((f'mutation probability: {mutation_probability:.02f}, '
+           f'survival percentile: {survival_percentile:.02f}, '
+           f'maximum number of mutations: {maximum_number_of_mutations}, '
+           f'initial population size: {initial_population_size}'))
 
-    average_maximal_rank, asymptotic_fitness, sample_being = average(runs)
+    average_maximal_rank, asymptotic_fitness, sample_being = average(configuration, number_of_runs_per_simulation)
 
-    print(f'mutation probability: {mutation_probability:.02f}')
     print(f'\taverage maximal rank: {average_maximal_rank:.02f}')
     print(f'\tasymptotic fitness: {asymptotic_fitness:.02f}')
     print(f'\tsample being: {sample_being}')
