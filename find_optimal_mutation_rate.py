@@ -2,10 +2,11 @@ from numpy import mean
 from itertools import product
 
 from genetic_algorithm.mutation import no_mutation, flit_random_bit_in_random_byte
-from genetic_algorithm.scenario.converge import ConvergeToTarget
+from genetic_algorithm.scenario.converge import RandomToTarget
+from genetic_algorithm.species.unicode import target_text, random_being
 
 
-def measure(run: ConvergeToTarget):
+def measure(run: RandomToTarget):
     generations = run.generations()
     *_, (last_rank, last_generation) = generations
     asymptotic_fitness = float(mean([run.fitness(being) for being in last_generation]))
@@ -13,7 +14,7 @@ def measure(run: ConvergeToTarget):
 
 
 def average(configuration, number_of_runs):
-    runs = [ConvergeToTarget(**configuration) for _ in range(number_of_runs)]
+    runs = [RandomToTarget(**configuration) for _ in range(number_of_runs)]
     measures = [measure(run) for run in runs]
 
     average_asymptotic_fitness = float(mean([f for f, _, _ in measures]))
@@ -23,7 +24,7 @@ def average(configuration, number_of_runs):
     return average_asymptotic_fitness, average_maximal_rank, sample_being
 
 
-target_string = 'cadavre'
+target = target_text('cadavre')
 mutation_function = flit_random_bit_in_random_byte
 number_of_runs_per_simulation = 3
 
@@ -46,8 +47,8 @@ for (
         initial_population_size
 ) in configuration_space:
     configuration = {
-        'target_string': target_string,
-        'initial_population_size': initial_population_size,
+        'target': target,
+        'initial_population': [random_being(len(target.genotype)) for _ in range(initial_population_size)],
         'survival_percentile': survival_percentile,
         'maximum_number_of_mutations': maximum_number_of_mutations,
         'mutation_distribution': {

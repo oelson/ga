@@ -8,6 +8,9 @@ class Being:
         self.genotype = genotype
         self.phenotype = phenotype
 
+    def reproduce(self, population):
+        pass
+
     def __str__(self):
         return f'{{phenotype:{repr(self.phenotype)}, genotype:{hexlify(self.genotype)}}}'
 
@@ -17,7 +20,7 @@ class Being:
 
 Population = List[Being]
 
-Life = Callable[[Being], Population]
+Life = Callable[[Being, Population], Population]
 
 Cycle = Callable[[Population], Population]
 
@@ -35,7 +38,7 @@ def generate(initial_population: Population, lifecycle: Cycle, stop: StopGenerat
         yield rank, population
 
 
-def select_over_all_livings(population: Population, being_lifecycle: Life, selection: Selection) -> Population:
-    being_lifecycles = map(being_lifecycle, population)
-    all_lives = list(chain.from_iterable(being_lifecycles))
+def select_over_all_livings(population: Population, life: Life, selection: Selection) -> Population:
+    lives = (life(being, population) for being in population)
+    all_lives = list(chain.from_iterable(lives))
     return selection(all_lives)

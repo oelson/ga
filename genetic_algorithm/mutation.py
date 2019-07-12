@@ -1,4 +1,6 @@
 from random import choices
+
+from genetic_algorithm.population import Being
 from .genome import random_byte_index, random_byte, random_bit_index_in_byte
 
 
@@ -27,3 +29,9 @@ def flit_random_bit_in_random_byte(genotype: bytearray) -> bytearray:
     mutated_byte = byte ^ (1 << bit_index)
     genotype[byte_index] = mutated_byte
     return genotype
+
+
+def mutate_being(being: Being, maximum_number_of_mutations: int, mutation_distribution: dict) -> Being:
+    for mutation in random_mutations(maximum_number_of_mutations, mutation_distribution):
+        being.genotype = mutation(being.genotype)
+    return being
