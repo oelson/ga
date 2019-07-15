@@ -1,6 +1,6 @@
 from sys import stdout
 
-from genetic_algorithm.mutation import flit_random_bit_in_random_byte, no_mutation, Hazard
+from genetic_algorithm.mutation import flip_random_bit_in_random_byte, no_mutation, Hazard
 from genetic_algorithm.scenario.converge import ConvergeToTarget
 from genetic_algorithm.selection import letter_distance, bytearray_distance, bytearray_bit_distance
 from genetic_algorithm.species.unicode import target_text, random_being
@@ -10,7 +10,7 @@ mutation_probability = 1 / 5
 maximum_number_of_mutations = 2
 mutation_distribution = {
     no_mutation: 1 - mutation_probability,
-    flit_random_bit_in_random_byte: mutation_probability,
+    flip_random_bit_in_random_byte: mutation_probability,
 }
 
 

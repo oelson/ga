@@ -1,16 +1,17 @@
 from statistics import mean
 from itertools import product
 
-from genetic_algorithm.mutation import Hazard, no_mutation, flit_random_bit_in_random_byte
+from genetic_algorithm.mutation import Hazard, no_mutation, flip_random_bit_in_random_byte, random_byte_replacement, \
+    Mutation
 from genetic_algorithm.scenario.converge import ConvergeToTarget
 from genetic_algorithm.selection import letter_distance, bytearray_distance, Fitness
 from genetic_algorithm.population import Being
 from genetic_algorithm.species.unicode import target_text, random_being
 
 target = target_text('cadavre')
-mutation_function = flit_random_bit_in_random_byte
 number_of_runs_per_simulation = 3
 maximum_rank = 1000
+mutation_function_space = [flip_random_bit_in_random_byte, random_byte_replacement]
 mutation_probability_space = [.9, .5, .1]
 maximum_number_of_mutations_space = [1, 2, 3, 4]
 initial_population_size_space = [20, 50]
@@ -29,6 +30,7 @@ fitness_function_space = [fitness_by_phenotype, fitness_by_genotype]
 
 
 def configure(
+        mutation_function: Mutation,
         maximum_number_of_mutations: int,
         mutation_probability: float,
         survival_percentile: float,
@@ -71,6 +73,7 @@ def random_being_of_target_length():
 
 
 configuration_space = product(
+    mutation_function_space,
     maximum_number_of_mutations_space,
     mutation_probability_space,
     survival_percentile_space,
@@ -79,7 +82,7 @@ configuration_space = product(
 )
 
 runs = map(lambda t: configure(*t), configuration_space)
-performances = map(lambda run: (run, *asymptotic_average_fitness(run, number_of_runs_per_simulation)), runs)
+performances = map(lambda r: (r, *asymptotic_average_fitness(r, number_of_runs_per_simulation)), runs)
 
 for run, average_maximal_rank, asymptotic_fitness, sample_being in performances:
     print(run)

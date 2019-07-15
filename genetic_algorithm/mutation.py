@@ -37,7 +37,7 @@ def random_byte_replacement(genotype: bytearray) -> bytearray:
     return genotype
 
 
-def flit_random_bit_in_random_byte(genotype: bytearray) -> bytearray:
+def flip_random_bit_in_random_byte(genotype: bytearray) -> bytearray:
     byte_index = random_byte_index(genotype)
     byte = genotype[byte_index]
     bit_index = random_bit_index_in_byte()
