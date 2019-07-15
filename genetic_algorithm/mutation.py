@@ -1,20 +1,30 @@
 from random import choices, randint
+from typing import Dict, Callable, Sequence
 
-from genetic_algorithm.population import Being
-
-
-def mutate_being(being: Being, maximum_number_of_mutations: int, mutation_distribution: dict) -> Being:
-    for mutation in random_mutations(maximum_number_of_mutations, mutation_distribution):
-        being.genotype = mutation(being.genotype)
-    return being
+Mutation = Callable[[bytearray], bytearray]
 
 
-def random_mutations(maximum_number_of_mutations, distribution: dict) -> callable:
-    mutations = choices(
-        population=list(distribution.keys()),
-        weights=list(distribution.values()),
-        k=maximum_number_of_mutations)
-    return mutations
+class Hazard:
+    def __init__(self, distribution: Dict[Mutation, float], maximum: int):
+        self.distribution = distribution
+        self.maximum = maximum
+
+    def __call__(self, genotype: bytearray) -> bytearray:
+        for mutation in self.pick():
+            genotype = mutation(genotype)
+        return genotype
+
+    def pick(self) -> Sequence[Mutation]:
+        return choices(
+            population=list(self.distribution.keys()),
+            weights=list(self.distribution.values()),
+            k=self.maximum)
+
+    def __str__(self):
+        return str({f.__name__: round(p, 2) for f, p in self.distribution.items()})
+
+    def __repr__(self):
+        return self.__str__()
 
 
 def no_mutation(genotype: bytearray) -> bytearray:
