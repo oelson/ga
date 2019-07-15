@@ -1,4 +1,4 @@
-from numpy import mean
+from statistics import mean
 from itertools import product
 
 from genetic_algorithm.mutation import no_mutation, flit_random_bit_in_random_byte
@@ -9,8 +9,8 @@ from genetic_algorithm.species.unicode import target_text, random_being
 
 def measure(run: ConvergeToTarget):
     last_rank, last_generation = run.last_generation()
-    asymptotic_fitness = float(mean([run.fitness(being) for being in last_generation]))
-    return last_rank, asymptotic_fitness, last_generation[0]
+    mean_fitness = float(mean([run.fitness(being) for being in last_generation]))
+    return last_rank, mean_fitness, last_generation[0]
 
 
 def average(configuration, number_of_runs):
