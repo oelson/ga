@@ -13,8 +13,7 @@ class ConvergeToTarget:
             fitness: Fitness,
             random_being: Callable[[], Being],
             initial_population_size: int,
-            maximum_number_of_mutations: int,
-            mutation_distribution: dict,
+            hazard: Hazard,
             maximum_rank: int
     ):
         self.target = target
@@ -24,7 +23,7 @@ class ConvergeToTarget:
         self.initial_population_size = initial_population_size
         self.maximum_rank = maximum_rank
         self.fitness = EfficientFitness(fitness)
-        self.hazard = Hazard(mutation_distribution, maximum_number_of_mutations)
+        self.hazard = hazard
 
     def select(self, p: Population) -> Population:
         return truncate(p, self.fitness, self.survival_percentile)

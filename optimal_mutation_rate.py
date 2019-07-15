@@ -1,14 +1,13 @@
 from statistics import mean
 from itertools import product
 
-from genetic_algorithm.mutation import no_mutation, flit_random_bit_in_random_byte
+from genetic_algorithm.mutation import Hazard, no_mutation, flit_random_bit_in_random_byte
 from genetic_algorithm.scenario.converge import ConvergeToTarget
 from genetic_algorithm.selection import letter_distance, bytearray_distance, Fitness
 from genetic_algorithm.population import Being
 from genetic_algorithm.species.unicode import target_text, random_being
 
 target = target_text('cadavre')
-
 mutation_function = flit_random_bit_in_random_byte
 number_of_runs_per_simulation = 3
 maximum_rank = 1000
@@ -36,16 +35,16 @@ def configure(
         initial_population_size: int,
         fitness_function: Fitness
 ):
+    mutation_distribution = {
+        no_mutation: 1 - mutation_probability,
+        mutation_function: mutation_probability,
+    }
     return ConvergeToTarget(
         target=target,
         random_being=random_being_of_target_length,
         initial_population_size=initial_population_size,
         survival_percentile=survival_percentile,
-        maximum_number_of_mutations=maximum_number_of_mutations,
-        mutation_distribution={
-            no_mutation: 1 - mutation_probability,
-            mutation_function: mutation_probability,
-        },
+        hazard=Hazard(mutation_distribution, maximum_number_of_mutations),
         fitness=fitness_function,
         maximum_rank=maximum_rank
     )
