@@ -8,8 +8,7 @@ from genetic_algorithm.species.unicode import target_text, random_being
 
 
 def measure(run: ConvergeToTarget):
-    generations = run.generations()
-    *_, (last_rank, last_generation) = generations
+    last_rank, last_generation = run.last_generation()
     asymptotic_fitness = float(mean([run.fitness(being) for being in last_generation]))
     return last_rank, asymptotic_fitness, last_generation[0]
 

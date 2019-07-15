@@ -38,3 +38,7 @@ class ConvergeToTarget:
 
     def generations(self):
         return generate(self.initial_population, self.lifecycle, self.stop)
+
+    def last_generation(self):
+        *_, (last_rank, last_generation) = self.generations()
+        return last_rank, last_generation
