@@ -9,7 +9,7 @@ from genetic_algorithm.species.unicode import target_text, random_being
 
 def measure(run: ConvergeToTarget):
     last_rank, last_generation = run.last_generation()
-    mean_fitness = float(mean([run.fitness(being) for being in last_generation]))
+    mean_fitness = mean([run.fitness(being) for being in last_generation])
     return last_rank, mean_fitness, last_generation[0]
 
 
@@ -17,8 +17,8 @@ def average(configuration, number_of_runs):
     runs = [ConvergeToTarget(**configuration) for _ in range(number_of_runs)]
     measures = [measure(run) for run in runs]
 
-    average_asymptotic_fitness = float(mean([f for f, _, _ in measures]))
-    average_maximal_rank = float(mean([r for _, r, _ in measures]))
+    average_asymptotic_fitness = mean([f for f, _, _ in measures])
+    average_maximal_rank = mean([r for _, r, _ in measures])
     sample_being = next(b for _, _, b in measures)
 
     return average_asymptotic_fitness, average_maximal_rank, sample_being
