@@ -17,6 +17,12 @@ class EfficientFitness:
             self.cache[being] = self.fitness(being)
         return self.cache[being]
 
+    def __str__(self):
+        return self.fitness.__name__
+
+    def __repr__(self):
+        return self.__str__()
+
 
 def truncate(population: list, fitness: callable, survival_percentile: float) -> list:
     competition = sorted(population, key=fitness)
