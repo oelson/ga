@@ -37,11 +37,10 @@ StopGeneration = Callable[[int, Population], bool]
 
 def generate(initial_population: Population, lifecycle: Cycle, stop: StopGeneration):
     rank, population = 1, initial_population
-    yield rank, population
 
     while not stop(rank, population):
-        rank, population = rank + 1, lifecycle(population)
         yield rank, population
+        rank, population = rank + 1, lifecycle(population)
 
 
 def select_over_all_livings(population: Population, life: Life, selection: Selection) -> Population:
