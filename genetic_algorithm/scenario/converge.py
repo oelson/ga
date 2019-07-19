@@ -5,7 +5,7 @@ from genetic_algorithm.selection import bytearray_bit_distance, letter_distance,
 from genetic_algorithm.population import Being, Population, generate, select_over_all_livings
 
 
-class ConvergeToTarget:
+class Converge:
     def __init__(
             self,
             survival_percentile: float,
@@ -17,7 +17,7 @@ class ConvergeToTarget:
     ):
         self.survival_percentile = survival_percentile
         self.fertility_rate = int(1 / survival_percentile)
-        self.random_being = random_being
+        self.initial_being = random_being
         self.initial_population_size = initial_population_size
         self.maximum_rank = maximum_rank
         self._fitness = fitness
@@ -38,10 +38,8 @@ class ConvergeToTarget:
         return select_over_all_livings(p, self.life, self.select)
 
     def generations(self):
-        return generate(
-            [self.random_being() for _ in range(self.initial_population_size)],
-            self.lifecycle,
-            self.stop)
+        initial_population = [self.initial_being() for _ in range(self.initial_population_size)]
+        return generate(initial_population, self.lifecycle, self.stop)
 
     def last_generation(self):
         *_, (last_rank, last_generation) = self.generations()

@@ -4,7 +4,7 @@ from itertools import product
 
 from genetic_algorithm.mutation import Hazard, no_mutation, flip_random_bit_in_random_byte, random_byte_replacement, \
     Mutation
-from genetic_algorithm.scenario.converge import ConvergeToTarget
+from genetic_algorithm.scenario.converge import Converge
 from genetic_algorithm.selection import letter_distance, bytearray_distance, bytearray_bit_distance, Fitness
 from genetic_algorithm.population import Being
 from genetic_algorithm.species.unicode import TextTarget
@@ -33,7 +33,7 @@ def configure(
         no_mutation: 1 - mutation_probability,
         mutation_function: mutation_probability,
     }
-    return ConvergeToTarget(
+    return Converge(
         random_being=target.random_being,
         initial_population_size=initial_population_size,
         survival_percentile=survival_percentile,
@@ -43,7 +43,7 @@ def configure(
     )
 
 
-def asymptotic_average_fitness(run: ConvergeToTarget, number_of_runs: int) -> (float, float, Being):
+def asymptotic_average_fitness(run: Converge, number_of_runs: int) -> (float, float, Being):
     measures = [last_generation_fitness(run) for _ in range(number_of_runs)]
 
     average_asymptotic_fitness = mean(f for f, _, _ in measures)
@@ -53,7 +53,7 @@ def asymptotic_average_fitness(run: ConvergeToTarget, number_of_runs: int) -> (f
     return average_asymptotic_fitness, average_maximal_rank, sample_being
 
 
-def last_generation_fitness(run: ConvergeToTarget) -> (int, float, Being):
+def last_generation_fitness(run: Converge) -> (int, float, Being):
     last_rank, last_generation = run.last_generation()
     mean_fitness = mean(run.fitness(being) for being in last_generation)
     return last_rank, mean_fitness, last_generation[0]
