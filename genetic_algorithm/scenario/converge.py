@@ -8,7 +8,6 @@ from genetic_algorithm.population import Being, Population, generate, select_ove
 class ConvergeToTarget:
     def __init__(
             self,
-            target: Being,
             survival_percentile: float,
             fitness: Fitness,
             random_being: Callable[[], Being],
@@ -16,7 +15,6 @@ class ConvergeToTarget:
             hazard: Hazard,
             maximum_rank: int
     ):
-        self.target = target
         self.survival_percentile = survival_percentile
         self.fertility_rate = int(1 / survival_percentile)
         self.random_being = random_being

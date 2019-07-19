@@ -7,9 +7,9 @@ from genetic_algorithm.mutation import Hazard, no_mutation, flip_random_bit_in_r
 from genetic_algorithm.scenario.converge import ConvergeToTarget
 from genetic_algorithm.selection import letter_distance, bytearray_distance, bytearray_bit_distance, Fitness
 from genetic_algorithm.population import Being
-from genetic_algorithm.species.unicode import target_text, random_being
+from genetic_algorithm.species.unicode import TextTarget
 
-target = target_text('cadavre')
+target = TextTarget('cadavre')
 number_of_runs_per_simulation = 3
 maximum_rank = 1000
 mutation_function_space = [flip_random_bit_in_random_byte]  # [flip_random_bit_in_random_byte, random_byte_replacement]
@@ -18,20 +18,7 @@ maximum_number_of_mutations_space = [1]  # [1, 2, 3]
 initial_population_size_space = [20]  # [20, 50]
 survival_percentile_space = [.5]  # [.5, .25]
 
-
-def phenotype_comparison(b):
-    return letter_distance(b.phenotype, target.phenotype)
-
-
-def genotype_comparison(b):
-    return bytearray_distance(b.genotype, target.genotype)
-
-
-def fine_genotype_comparison(b):
-    return bytearray_bit_distance(b.genotype, target.genotype)
-
-
-fitness_function_space = [phenotype_comparison, genotype_comparison, fine_genotype_comparison]
+fitness_function_space = [target.fitness_by_phenotype, target.fitness_by_genotype]
 
 
 def configure(
@@ -47,8 +34,7 @@ def configure(
         mutation_function: mutation_probability,
     }
     return ConvergeToTarget(
-        target=target,
-        random_being=random_being_of_target_length,
+        random_being=target.random_being,
         initial_population_size=initial_population_size,
         survival_percentile=survival_percentile,
         hazard=Hazard(mutation_distribution, maximum_number_of_mutations),
@@ -71,10 +57,6 @@ def last_generation_fitness(run: ConvergeToTarget) -> (int, float, Being):
     last_rank, last_generation = run.last_generation()
     mean_fitness = mean(run.fitness(being) for being in last_generation)
     return last_rank, mean_fitness, last_generation[0]
-
-
-def random_being_of_target_length() -> Being:
-    return random_being(len(target.genotype))
 
 
 def jsonify(run, average_maximal_rank, asymptotic_fitness, sample_being):

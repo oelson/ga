@@ -3,10 +3,9 @@ from matplotlib import pyplot as plt
 
 from genetic_algorithm.mutation import flip_random_bit_in_random_byte, no_mutation, Hazard, random_byte_replacement
 from genetic_algorithm.scenario.converge import ConvergeToTarget
-from genetic_algorithm.selection import letter_distance, bytearray_distance, bytearray_bit_distance
-from genetic_algorithm.species.unicode import target_text, random_being
+from genetic_algorithm.species.unicode import TextTarget
 
-target = target_text('le cadavre exquis boira le vin nouveau')
+target = TextTarget('le cadavre exquis boira le vin nouveau')
 mutation_probability = .1
 maximum_number_of_mutations = 2
 mutation_distribution = {
@@ -14,25 +13,15 @@ mutation_distribution = {
     flip_random_bit_in_random_byte: mutation_probability,
 }
 maximum_rank = 100000
-
-
-def fitness(b):
-    return bytearray_bit_distance(b.genotype, target.genotype)
-    return bytearray_distance(b.genotype, target.genotype)
-    return letter_distance(b.phenotype, target.phenotype)
-
-
-def random_being_of_target_length():
-    return random_being(len(target.genotype))
-
+survival_percentile = .5
+initial_population_size = 100
 
 run = ConvergeToTarget(
-    target=target,
-    survival_percentile=1 / 2,
-    random_being=random_being_of_target_length,
-    initial_population_size=50,
+    survival_percentile=survival_percentile,
+    random_being=target.random_being,
+    initial_population_size=initial_population_size,
     hazard=Hazard(mutation_distribution, maximum_number_of_mutations),
-    fitness=fitness,
+    fitness=target.fitness_by_genotype,
     maximum_rank=maximum_rank
 )
 
@@ -42,7 +31,7 @@ worst_fitnesses = []
 
 for rank, population in run.generations():
     best, worst = population[0], population[-1]
-    best_fitness, worst_fitness = fitness(best), fitness(worst)
+    best_fitness, worst_fitness = run.fitness(best), run.fitness(worst)
     ranks.append(rank)
     best_fitnesses.append(best_fitness)
     worst_fitnesses.append(worst_fitness)

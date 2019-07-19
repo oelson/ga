@@ -1,6 +1,7 @@
 from random import randint
 
 from genetic_algorithm.population import Being, Population
+from genetic_algorithm import selection
 
 
 class TextBeing(Being):
@@ -29,3 +30,17 @@ def random_genome(size: int) -> bytearray:
 def target_text(string: str) -> Being:
     genome = bytearray(string.encode('UTF-8', 'replace'))
     return TextBeing(genome)
+
+
+class TextTarget:
+    def __init__(self, text):
+        self.being = target_text(text)
+
+    def fitness_by_genotype(self, being: Being):
+        return selection.bytearray_bit_distance(being.genotype, self.being.genotype)
+
+    def fitness_by_phenotype(self, being: Being):
+        return selection.letter_distance(being.phenotype, self.being.phenotype)
+
+    def random_being(self):
+        return random_being(len(self.being.genotype))
