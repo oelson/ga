@@ -48,11 +48,3 @@ class ConvergeToTarget:
     def last_generation(self):
         *_, (last_rank, last_generation) = self.generations()
         return last_rank, last_generation
-
-    def to_dict(self):
-        return {
-            'hazard': self.hazard.to_dict(),
-            'fitness function': self._fitness.__name__,
-            'survival percentile': self.survival_percentile,
-            'initial population size': self.initial_population_size
-        }

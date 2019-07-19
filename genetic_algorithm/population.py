@@ -11,9 +11,6 @@ class Being:
     def reproduce(self, population):
         pass
 
-    def __str__(self):
-        return f'{{phenotype:{repr(self.phenotype)}, genotype:{self.genotype.hex()}}}'
-
     def to_dict(self):
         return {
             'phenotype': self.phenotype,

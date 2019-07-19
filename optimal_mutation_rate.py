@@ -12,11 +12,11 @@ from genetic_algorithm.species.unicode import target_text, random_being
 target = target_text('cadavre')
 number_of_runs_per_simulation = 3
 maximum_rank = 1000
-mutation_function_space = [flip_random_bit_in_random_byte, random_byte_replacement]
-mutation_probability_space = [.7, .5, .3]
-maximum_number_of_mutations_space = [1, 2, 3]
-initial_population_size_space = [20, 50]
-survival_percentile_space = [.5, .25]
+mutation_function_space = [flip_random_bit_in_random_byte]  # [flip_random_bit_in_random_byte, random_byte_replacement]
+mutation_probability_space = [.3]  # [.7, .5, .3]
+maximum_number_of_mutations_space = [1]  # [1, 2, 3]
+initial_population_size_space = [20]  # [20, 50]
+survival_percentile_space = [.5]  # [.5, .25]
 
 
 def phenotype_comparison(b):
@@ -77,9 +77,19 @@ def random_being_of_target_length() -> Being:
     return random_being(len(target.genotype))
 
 
-def result_to_dict(run, average_maximal_rank, asymptotic_fitness, sample_being):
+def jsonify(run, average_maximal_rank, asymptotic_fitness, sample_being):
     return {
-        'configuration': run.to_dict(),
+        'configuration': {
+            'hazard': {
+                'distribution': {
+                    function.__name__: probability for function, probability in run.hazard.distribution.items()
+                },
+                'maximum': run.hazard.maximum
+            },
+            'fitness function': run._fitness.__name__,
+            'survival percentile': run.survival_percentile,
+            'initial population size': run.initial_population_size
+        },
         'result': {
             'average maximal rank': average_maximal_rank,
             'asymptotic fitness': asymptotic_fitness,
@@ -99,6 +109,6 @@ configuration_space = product(
 
 runs = map(lambda t: configure(*t), configuration_space)
 performances = map(lambda r: (r, *asymptotic_average_fitness(r, number_of_runs_per_simulation)), runs)
-json_objects = list(map(lambda v: result_to_dict(*v), performances))
+json_objects = list(map(lambda v: jsonify(*v), performances))
 
 print(to_json(json_objects, indent=2))

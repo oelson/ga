@@ -20,12 +20,6 @@ class Hazard:
             weights=list(self.distribution.values()),
             k=self.maximum)
 
-    def to_dict(self):
-        return {
-            'distribution': {function.__name__: probability for function, probability in self.distribution.items()},
-            'maximum': self.maximum
-        }
-
 
 def no_mutation(genotype: bytearray) -> bytearray:
     return genotype

@@ -43,10 +43,12 @@ worst_fitnesses = []
 for rank, population in run.generations():
     best, worst = population[0], population[-1]
     best_fitness, worst_fitness = fitness(best), fitness(worst)
-    stdout.write(f'\r[{rank}] fitness:{best_fitness}-{worst_fitness} best: {best}')
     ranks.append(rank)
     best_fitnesses.append(best_fitness)
     worst_fitnesses.append(worst_fitness)
+    stdout.write((f'\r[{rank}] '
+                  f'fitness:{best_fitness}-{worst_fitness} '
+                  f'best: {{phenotype:{repr(best.phenotype)}, genotype:{best.genotype.hex()}}}'))
 
 max_fitness = max(best_fitnesses)
 min_fitness = 0
