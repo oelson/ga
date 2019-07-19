@@ -1,4 +1,5 @@
 from sys import stdout
+from json import dumps as to_json
 
 from genetic_algorithm.mutation import flip_random_bit_in_random_byte, no_mutation, Hazard
 from genetic_algorithm.scenario.converge import ConvergeToTarget
@@ -35,5 +36,6 @@ run = ConvergeToTarget(
 )
 
 for rank, population in run.generations():
-    line = f'[{rank}] best: {population[0]}'
+    best = population[0]
+    line = f'[{rank}] best: {best}'
     stdout.write(f'\r{line}')

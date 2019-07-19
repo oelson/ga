@@ -22,6 +22,7 @@ class ConvergeToTarget:
         self.random_being = random_being
         self.initial_population_size = initial_population_size
         self.maximum_rank = maximum_rank
+        self._fitness = fitness
         self.fitness = EfficientFitness(fitness)
         self.hazard = hazard
 
@@ -48,13 +49,10 @@ class ConvergeToTarget:
         *_, (last_rank, last_generation) = self.generations()
         return last_rank, last_generation
 
-    def __str__(self):
-        return (
-            f'hazard: {self.hazard}, '
-            f'fitness function: {self.fitness}, '
-            f'survival percentile: {self.survival_percentile:.02f}, '
-            f'initial population size: {self.initial_population_size}'
-        )
-
-    def __repr__(self):
-        return self.__str__()
+    def to_dict(self):
+        return {
+            'hazard': self.hazard.to_dict(),
+            'fitness function': self._fitness.__name__,
+            'survival percentile': self.survival_percentile,
+            'initial population size': self.initial_population_size
+        }

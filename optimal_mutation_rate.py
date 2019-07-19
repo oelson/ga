@@ -1,10 +1,11 @@
+from json import dumps as to_json
 from statistics import mean
 from itertools import product
 
 from genetic_algorithm.mutation import Hazard, no_mutation, flip_random_bit_in_random_byte, random_byte_replacement, \
     Mutation
 from genetic_algorithm.scenario.converge import ConvergeToTarget
-from genetic_algorithm.selection import letter_distance, bytearray_distance, Fitness
+from genetic_algorithm.selection import letter_distance, bytearray_distance, bytearray_bit_distance, Fitness
 from genetic_algorithm.population import Being
 from genetic_algorithm.species.unicode import target_text, random_being
 
@@ -12,21 +13,25 @@ target = target_text('cadavre')
 number_of_runs_per_simulation = 3
 maximum_rank = 1000
 mutation_function_space = [flip_random_bit_in_random_byte, random_byte_replacement]
-mutation_probability_space = [.9, .5, .1]
-maximum_number_of_mutations_space = [1, 2, 3, 4]
+mutation_probability_space = [.7, .5, .3]
+maximum_number_of_mutations_space = [1, 2, 3]
 initial_population_size_space = [20, 50]
-survival_percentile_space = [1 / 2, 1 / 3, 1 / 4]
+survival_percentile_space = [.5, .25]
 
 
-def fitness_by_phenotype(b):
+def phenotype_comparison(b):
     return letter_distance(b.phenotype, target.phenotype)
 
 
-def fitness_by_genotype(b):
+def genotype_comparison(b):
     return bytearray_distance(b.genotype, target.genotype)
 
 
-fitness_function_space = [fitness_by_phenotype, fitness_by_genotype]
+def fine_genotype_comparison(b):
+    return bytearray_bit_distance(b.genotype, target.genotype)
+
+
+fitness_function_space = [phenotype_comparison, genotype_comparison, fine_genotype_comparison]
 
 
 def configure(
@@ -68,8 +73,19 @@ def last_generation_fitness(run: ConvergeToTarget) -> (int, float, Being):
     return last_rank, mean_fitness, last_generation[0]
 
 
-def random_being_of_target_length():
+def random_being_of_target_length() -> Being:
     return random_being(len(target.genotype))
+
+
+def result_to_dict(run, average_maximal_rank, asymptotic_fitness, sample_being):
+    return {
+        'configuration': run.to_dict(),
+        'result': {
+            'average maximal rank': average_maximal_rank,
+            'asymptotic fitness': asymptotic_fitness,
+            'sample being': sample_being.to_dict()
+        }
+    }
 
 
 configuration_space = product(
@@ -83,9 +99,6 @@ configuration_space = product(
 
 runs = map(lambda t: configure(*t), configuration_space)
 performances = map(lambda r: (r, *asymptotic_average_fitness(r, number_of_runs_per_simulation)), runs)
+json_objects = list(map(lambda v: result_to_dict(*v), performances))
 
-for run, average_maximal_rank, asymptotic_fitness, sample_being in performances:
-    print(run)
-    print(f'\taverage maximal rank: {average_maximal_rank:.02f}')
-    print(f'\tasymptotic fitness: {asymptotic_fitness:.02f}')
-    print(f'\tsample being: {sample_being}')
+print(to_json(json_objects, indent=2))

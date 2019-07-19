@@ -1,5 +1,4 @@
 from typing import List, Callable
-from binascii import hexlify
 from itertools import chain
 
 
@@ -13,10 +12,13 @@ class Being:
         pass
 
     def __str__(self):
-        return f'{{phenotype:{repr(self.phenotype)}, genotype:{hexlify(self.genotype)}}}'
+        return f'{{phenotype:{repr(self.phenotype)}, genotype:{self.genotype.hex()}}}'
 
-    def __repr__(self):
-        return self.__str__()
+    def to_dict(self):
+        return {
+            'phenotype': self.phenotype,
+            'genotype': self.genotype.hex()
+        }
 
     def __hash__(self):
         return hash(self.initial_genotype)
