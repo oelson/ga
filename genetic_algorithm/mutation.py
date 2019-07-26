@@ -31,6 +31,16 @@ def random_byte_replacement(genotype: bytearray) -> bytearray:
     return genotype
 
 
+def build_distribution(mutation_probability: float, mutation_distribution: Dict[Mutation, float]):
+    mutation_distribution = {
+        mutation: mutation_probability * inner_probability
+        for mutation, inner_probability in mutation_distribution.items()
+    }
+    if mutation_probability < 1:
+        mutation_distribution[no_mutation] = 1 - mutation_probability
+    return mutation_distribution
+
+
 def flip_random_bit_in_random_byte(genotype: bytearray) -> bytearray:
     byte_index = random_byte_index(genotype)
     byte = genotype[byte_index]

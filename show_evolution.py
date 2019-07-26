@@ -1,25 +1,28 @@
 from sys import stdout
 from matplotlib import pyplot as plt
 
-from genetic_algorithm.mutation import flip_random_bit_in_random_byte, no_mutation, Hazard, random_byte_replacement
+from genetic_algorithm.mutation import flip_random_bit_in_random_byte, build_distribution, Hazard, \
+    random_byte_replacement
 from genetic_algorithm.scenario.converge import Converge
 from genetic_algorithm.species.unicode import TextTarget
 
 target = TextTarget('le cadavre exquis boira le vin nouveau')
-mutation_probability = 1 / 4
+mutation_probability = 1 / 10
+mutation_distribution = {
+    flip_random_bit_in_random_byte: 1 / 2,
+    random_byte_replacement: 1 / 2
+}
+maximum_number_of_mutations = 2
 
 run = Converge(
     survival_percentile=1 / 2,
     random_being=target.random_being,
     initial_population_size=100,
     hazard=Hazard(
-        distribution={
-            no_mutation: 1 - mutation_probability,
-            flip_random_bit_in_random_byte: mutation_probability,
-        },
-        maximum=2),
-    fitness=target.fitness_by_phenotype,
-    maximum_rank=50000
+        build_distribution(mutation_probability, mutation_distribution),
+        maximum_number_of_mutations),
+    fitness=target.fitness_by_genotype,
+    maximum_rank=2000
 )
 
 ranks = []

@@ -1,12 +1,11 @@
+from itertools import product
 from json import dumps as to_json
 from statistics import mean
-from itertools import product
 
-from genetic_algorithm.mutation import Hazard, no_mutation, flip_random_bit_in_random_byte, random_byte_replacement, \
-    Mutation
-from genetic_algorithm.scenario.converge import Converge
-from genetic_algorithm.selection import letter_distance, bytearray_distance, bytearray_bit_distance, Fitness
+from genetic_algorithm.mutation import Hazard, build_distribution, flip_random_bit_in_random_byte, Mutation
 from genetic_algorithm.population import Being
+from genetic_algorithm.scenario.converge import Converge
+from genetic_algorithm.selection import Fitness
 from genetic_algorithm.species.unicode import TextTarget
 
 target = TextTarget('cadavre')
@@ -29,10 +28,7 @@ def configure(
         initial_population_size: int,
         fitness_function: Fitness
 ):
-    mutation_distribution = {
-        no_mutation: 1 - mutation_probability,
-        mutation_function: mutation_probability,
-    }
+    mutation_distribution = build_distribution(mutation_probability, {mutation_function: 1})
     return Converge(
         random_being=target.random_being,
         initial_population_size=initial_population_size,
