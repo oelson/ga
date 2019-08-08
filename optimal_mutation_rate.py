@@ -30,7 +30,7 @@ def configure(
 ):
     mutation_distribution = build_distribution(mutation_probability, {mutation_function: 1})
     return Converge(
-        random_being=target.random_being,
+        initial_being=target.random_being,
         initial_population_size=initial_population_size,
         survival_percentile=survival_percentile,
         hazard=Hazard(mutation_distribution, maximum_number_of_mutations),

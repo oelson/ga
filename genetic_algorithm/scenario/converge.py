@@ -10,14 +10,14 @@ class Converge:
             self,
             survival_percentile: float,
             fitness: Fitness,
-            random_being: Callable[[], Being],
+            initial_being: Callable[[], Being],
             initial_population_size: int,
             hazard: Hazard,
             maximum_rank: int
     ):
         self.survival_percentile = survival_percentile
         self.fertility_rate = int(1 / survival_percentile)
-        self.initial_being = random_being
+        self.initial_being = initial_being
         self.initial_population_size = initial_population_size
         self.maximum_rank = maximum_rank
         self._fitness = fitness

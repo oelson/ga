@@ -7,6 +7,7 @@ from py_compile import compile
 TODO use processes to isolate memory space & SIGSEGV errors
 '''
 
+
 def input():
     return [1, 6, 3, 7, 5, 9, 8, 2, 4, 10]
 

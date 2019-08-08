@@ -16,13 +16,13 @@ maximum_number_of_mutations = 2
 
 run = Converge(
     survival_percentile=1 / 2,
-    random_being=target.random_being,
+    initial_being=target.random_being,
     initial_population_size=100,
     hazard=Hazard(
         build_distribution(mutation_probability, mutation_distribution),
         maximum_number_of_mutations),
-    fitness=target.fitness_by_genotype,
-    maximum_rank=2000
+    fitness=target.fitness_by_phenotype,
+    maximum_rank=10000
 )
 
 ranks = []
