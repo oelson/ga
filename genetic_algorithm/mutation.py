@@ -41,6 +41,15 @@ def build_distribution(mutation_probability: float, mutation_distribution: Dict[
     return mutation_distribution
 
 
+def build_hazard(
+        mutation_probability: float,
+        mutation_distribution: Dict[Mutation, float],
+        maximum_number_of_mutations: int):
+    return Hazard(
+        build_distribution(mutation_probability, mutation_distribution),
+        maximum_number_of_mutations)
+
+
 def flip_random_bit_in_random_byte(genotype: bytearray) -> bytearray:
     byte_index = random_byte_index(genotype)
     byte = genotype[byte_index]

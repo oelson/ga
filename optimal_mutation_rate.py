@@ -2,11 +2,11 @@ from itertools import product
 from json import dumps as to_json
 from statistics import mean
 
-from genetic_algorithm.mutation import Hazard, build_distribution, flip_random_bit_in_random_byte, Mutation
+from genetic_algorithm.mutation import build_hazard, flip_random_bit_in_random_byte, Mutation
 from genetic_algorithm.population import Being
 from genetic_algorithm.scenario.converge import Converge
 from genetic_algorithm.selection import Fitness
-from genetic_algorithm.species.unicode import TextTarget
+from genetic_algorithm.species.unicode import TextTarget, clone_being
 
 target = TextTarget('cadavre')
 number_of_runs_per_simulation = 3
@@ -28,12 +28,12 @@ def configure(
         initial_population_size: int,
         fitness_function: Fitness
 ):
-    mutation_distribution = build_distribution(mutation_probability, {mutation_function: 1})
     return Converge(
         initial_being=target.random_being,
         initial_population_size=initial_population_size,
+        reproduce_being=clone_being,
         survival_percentile=survival_percentile,
-        hazard=Hazard(mutation_distribution, maximum_number_of_mutations),
+        hazard=build_hazard(mutation_probability, {mutation_function: 1}, maximum_number_of_mutations),
         fitness=fitness_function,
         maximum_rank=maximum_rank
     )

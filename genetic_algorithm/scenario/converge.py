@@ -1,8 +1,8 @@
-from typing import Callable
+from typing import Callable, List
 
 from genetic_algorithm.mutation import Hazard
-from genetic_algorithm.selection import bytearray_bit_distance, letter_distance, truncate, Fitness, EfficientFitness
 from genetic_algorithm.population import Being, Population, generate, select_over_all_livings
+from genetic_algorithm.selection import truncate, Fitness, EfficientFitness
 
 
 class Converge:
@@ -12,6 +12,7 @@ class Converge:
             fitness: Fitness,
             initial_being: Callable[[], Being],
             initial_population_size: int,
+            reproduce_being: Callable[[Being, Population], Being],
             hazard: Hazard,
             maximum_rank: int
     ):
@@ -19,6 +20,7 @@ class Converge:
         self.fertility_rate = int(1 / survival_percentile)
         self.initial_being = initial_being
         self.initial_population_size = initial_population_size
+        self.reproduce_being = reproduce_being
         self.maximum_rank = maximum_rank
         self._fitness = fitness
         self.fitness = EfficientFitness(fitness)
@@ -32,7 +34,7 @@ class Converge:
 
     def life(self, b: Being, p: Population) -> Population:
         b.genotype = self.hazard(b.genotype)
-        return [b.reproduce(p) for _ in range(self.fertility_rate)]
+        return [self.reproduce_being(b, p) for _ in range(self.fertility_rate)]
 
     def lifecycle(self, p: Population) -> Population:
         return select_over_all_livings(p, self.life, self.select)

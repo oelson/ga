@@ -1,3 +1,4 @@
+from random import randint
 from typing import List, Callable
 from itertools import chain
 
@@ -7,9 +8,6 @@ class Being:
         self.initial_genotype = bytes(genotype)
         self.genotype = genotype
         self.phenotype = phenotype
-
-    def reproduce(self, population):
-        pass
 
     def to_dict(self):
         return {
@@ -47,3 +45,7 @@ def select_over_all_livings(population: Population, life: Life, selection: Selec
     lives = (life(being, population) for being in population)
     all_lives = list(chain.from_iterable(lives))
     return selection(all_lives)
+
+
+def random_genome(size: int) -> bytearray:
+    return bytearray(randint(0x00, 0xff) for _ in range(size))
