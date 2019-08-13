@@ -1,9 +1,9 @@
 from sys import stdout
 from typing import Sequence
 
+from genetic_algorithm.mutation import flip_random_bit_in_random_byte, build_hazard
 from genetic_algorithm.scenario.converge import Converge
-from genetic_algorithm.species.python_code import source_code_to_bytecode, PythonBeing
-from genetic_algorithm.mutation import flip_random_bit_in_random_byte, build_distribution, Hazard
+from genetic_algorithm.species.python_code import source_code_to_bytecode, PythonBeing, clone_being
 
 '''
 trouver un moyen de gérer les progénitures malformées:
@@ -30,9 +30,11 @@ run = Converge(
     survival_percentile=1 / 2,
     initial_being=lambda: PythonBeing(bytearray(prototype_bytecode)),
     initial_population_size=100,
-    hazard=Hazard(
-        distribution=build_distribution(1 / 10, {flip_random_bit_in_random_byte: 1}),
-        maximum=2),
+    reproduce_being=clone_being,
+    hazard=build_hazard(
+        mutation_probability=1 / 10,
+        mutation_distribution={flip_random_bit_in_random_byte: 1},
+        maximum_number_of_mutations=2),
     fitness=lambda b: count_sorted(b.phenotype),
     maximum_rank=10000
 )

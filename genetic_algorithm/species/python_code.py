@@ -1,24 +1,37 @@
 from marshal import loads
 from py_compile import compile
 from tempfile import NamedTemporaryFile
+from multiprocessing import Process, Queue
 
 from genetic_algorithm.population import Being, Population
 
 
 class PythonBeing(Being):
     def __init__(self, genotype: bytearray):
-        # expression du génome par exécution du bytecode
+        # le code est exécuté au sein d'un processus séparé pour isoler ldes signaux tels SEGSIGV
+        q = Queue()
+        p = Process(target=evaluate_sort_bytecode, args=(q, genotype))
+        p.start()
+        phenotype, error = q.get()
+        p.join()
+        if error: raise error
+        super().__init__(genotype, phenotype)
+
+
+def clone_being(being: Being, population: Population):
+    genome_copy = bytearray(being.genotype)
+    return PythonBeing(genome_copy)
+
+
+def evaluate_sort_bytecode(queue: Queue, genotype: bytearray):
+    try:
         code = loads(genotype)
-        # TODO process
         local_variables = {'numbers': [1, 6, 3, 7, 5, 9, 8, 2, 4, 10]}
         exec(code, None, local_variables)
         phenotype = local_variables['numbers']
-        super().__init__(genotype, phenotype)
-
-    def reproduce(self, population: Population):
-        # clonage
-        genome_copy = bytearray(self.genotype)
-        return PythonBeing(genome_copy)
+        queue.put((phenotype, None))
+    except Exception as error:
+        queue.put((None, error))
 
 
 def source_code_to_bytecode(python_code: str, compile_directory: str) -> bytes:
