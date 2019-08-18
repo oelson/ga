@@ -1,71 +1,106 @@
-import marshal
-from datetime import datetime
-from os import stat
+import signal
+from itertools import chain
+from marshal import loads
+from multiprocessing import Pool
+from os import getpid, getppid
 from py_compile import compile
+from tempfile import NamedTemporaryFile
+from typing import List, Tuple
+from functools import partial
 
+
+class BubleSort:
+    PythonCode = '''
+for i in range(0, len(numbers)):
+    for j in range(i + 1, len(numbers)):
+        if numbers[i] > numbers[j]:
+            numbers[i], numbers[j] = numbers[j], numbers[i]
 '''
-TODO use processes to isolate memory space & SIGSEGV errors
-'''
+
+    def __init__(self, bytecode, name):
+        self.bytecode = bytecode
+        self.name = name
+
+    def __str__(self):
+        return self.name
+
+    @staticmethod
+    def original():
+        with NamedTemporaryFile(
+                dir='/Users/nelson/Desktop/PYCOMPILE',
+                suffix='.py',
+                mode='w',
+                encoding='utf-8',
+                delete=False
+        ) as source_file:
+            source_file.write(BubleSort.PythonCode)
+
+        code_file_path = compile(source_file.name, doraise=True)
+
+        with open(code_file_path, 'rb') as code_file:
+            # skip metadata
+            code_file.seek(3 * 4)
+            bytecode = code_file.read()
+
+        return BubleSort(bytecode, 'original')
+
+    def sort(self, numbers: List[int]):
+        # kill(current_process().pid, signal.SIGSEGV)
+        code = loads(self.bytecode)
+        local_variables = {'numbers': numbers}
+        exec(code, None, local_variables)
+        return local_variables['numbers']
 
 
-def input():
-    return [1, 6, 3, 7, 5, 9, 8, 2, 4, 10]
+def print_and_exit(signum, frame):
+    print(f'{getppid()}/{getpid()} caught signal {signal.Signals(signum).name} ({signum})', flush=True)
+    # TODO comment terminer le processus pour qu'il soit recréé proprement ?
 
 
-def original_genome():
-    for i in range(1, len(l)):
-        for j in range(i + 1, len(l)):
-            if l[i] > l[j]:
-                l[i], l[j] = l[j], l[i]
-    return l
+def initialize_process():
+    for sig in (set(signal.Signals) - {signal.SIGKILL, signal.SIGSTOP}):
+        signal.signal(sig, print_and_exit)
 
 
-def express(genome):
-    l = input()
-    exec(genome, {'l': l})
-    return l
+def safe_sort_10_elements(sort: BubleSort) -> (Tuple[int, int], BubleSort, List[int], Exception):
+    pidinfo = (getpid(), getppid())
+    numbers = [1, 6, 3, 7, 5, 9, 8, 2, 4, 10]
+    try:
+        return pidinfo, sort, sort.sort(numbers), None
+    except Exception as exception:
+        return pidinfo, sort, None, exception
 
 
-original_code = original_genome.__code__
-original_result = express(original_code)
-binary = marshal.dumps(original_code.co_code)
+def present_result(info, sort, sorted_numbers, error):
+    (pid, ppid) = info
+    if error:
+        print(f'[{ppid}|{pid}] sort:{sort}, error:{error}', flush=True)
+    else:
+        print(f'[{ppid}|{pid}] sort:{sort}, numbers:{sorted_numbers}', flush=True)
 
-magic_number = int.from_bytes(binary[0:4], byteorder='little', signed=False)
-modification_timestamp = int.from_bytes(binary[4:8], byteorder='little', signed=False)
-source_size = int.from_bytes(binary[8:12], byteorder='little', signed=False)
-original_bytecode = binary[12:]
-modification_time = datetime.fromtimestamp(modification_timestamp)
-print(f'magic number:      {magic_number:02x}')
-print(f'modification time: {modification_time}')
-print(f'source size:       {source_size:02x}')
-print(f'input:             {input()}')
-print(f'original result:   {original_result}')
-print()
 
-for byte_index in range(0, 2):
-    original_byte = original_bytecode[byte_index]
-    print(f'byte index: {byte_index}, value: 0x{original_byte:02x}')
+# Compilation du tri original
+original_sort = BubleSort.original()
 
-    for random_byte in range(0xff + 1):
-        print(f'\trandom byte: 0x{random_byte:02x} -> ', end='')
 
-        mutated_bytecode = bytearray(original_bytecode)
-        mutated_bytecode[byte_index] = random_byte
+# Mutation du tri original
+def make_mutant(mutated_byte, byte_index):
+    mutated_bytecode = bytearray(original_sort.bytecode)
+    original_byte = mutated_bytecode[byte_index]
+    mutated_bytecode[byte_index] = mutated_byte
+    return BubleSort(mutated_bytecode, f'b#{byte_index}:{original_byte:02x}->{mutated_byte:02x}')
 
-        try:
-            mutated_code = marshal.loads(mutated_bytecode)
-            # TODO fitness: number of numbers in ascending order
-            # TODO label the code with a note (same, better, worse, malformed)
-        except Exception as e:
-            print(f'compile error: {e}')
-            continue
-            # TODO disasembly that tolerate fault
-            # TODO diff disasemblies
 
-        try:
-            mutated_result = express(mutated_code)
-        except Exception as e:
-            print(f'exec error: {e}')
-            continue
+make_specific_mutant = partial(make_mutant, 0x00)
 
-        print(mutated_result)
+# Tris comme jeu de données
+sorts = chain([original_sort], map(make_specific_mutant, range(0, 30)))
+
+# Traitement parallèle du jeu de données
+# TODO le premier processus qui plante semble figer l'ensemble du Pool
+p = Pool(processes=4, maxtasksperchild=1, initializer=initialize_process)
+results = p.map(safe_sort_10_elements, sorts)
+for pidinfo, sort, sorted_numbers, exception in results:
+    present_result(pidinfo, sort, sorted_numbers, exception)
+p.close()
+p.join()
