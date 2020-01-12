@@ -2,25 +2,28 @@ from sys import stdout
 from matplotlib import pyplot as plt
 
 from genetic_algorithm import mutation
-from genetic_algorithm.scenario.converge import Converge
-from genetic_algorithm.species.unicode import TextTarget, clone_being
+from genetic_algorithm.simulation import Simulation
+from genetic_algorithm.species.unicode import TextTarget
+from genetic_algorithm.presentation import byte_string
 
 target = TextTarget('le cadavre exquis boira le vin nouveau')
 
-run = Converge(
-    survival_percentile=1 / 2,
+run = Simulation(
+    survival_percentile=1 / 8,
     initial_being=target.random_being,
-    initial_population_size=100,
-    reproduce_being=clone_being,
-    hazard=mutation.build_hazard(
-        mutation_probability=1 / 10,
+    initial_population_size=30,
+    maximum_rank=100000,
+
+    hazard=mutation.Hazard.build(
+        mutation_probability=1 / 2,
         mutation_distribution={
-            mutation.flip_random_bit_in_random_byte: 1 / 2,
-            mutation.random_byte_replacement: 1 / 2
+            mutation.replace_random_letter(target.alphabet()): 0,
+            mutation.replace_random_byte: .5,
+            mutation.replace_random_bit: .5,
         },
-        maximum_number_of_mutations=2),
+        maximum_number_of_mutations=1),
+
     fitness=target.fitness_by_genotype,
-    maximum_rank=10000
 )
 
 ranks = []
@@ -35,7 +38,7 @@ for rank, population in run.generations():
     worst_fitnesses.append(worst_fitness)
     stdout.write((f'\r[{rank}] '
                   f'fitness:{best_fitness}-{worst_fitness} '
-                  f'best: {{genotype:{best.genotype.hex()}, phenotype:{repr(best.phenotype)}}}'))
+                  f'best: {{genotype:{byte_string(best.genotype)}, phenotype:{repr(best.phenotype)}}}'))
 
 max_fitness = max(best_fitnesses)
 min_fitness = 0

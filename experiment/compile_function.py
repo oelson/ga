@@ -1,12 +1,11 @@
 import signal
-from itertools import chain
 from marshal import loads
-from multiprocessing import Pool
-from os import getpid, getppid
+from multiprocessing import Process, Queue
+from os import getpid, getppid, kill
 from py_compile import compile
+from sys import exit
 from tempfile import NamedTemporaryFile
-from typing import List, Tuple
-from functools import partial
+from typing import List
 
 
 class BubleSort:
@@ -45,62 +44,72 @@ for i in range(0, len(numbers)):
         return BubleSort(bytecode, 'original')
 
     def sort(self, numbers: List[int]):
-        # kill(current_process().pid, signal.SIGSEGV)
         code = loads(self.bytecode)
         local_variables = {'numbers': numbers}
         exec(code, None, local_variables)
         return local_variables['numbers']
 
+    def present_result(self, numbers, error):
+        if error:
+            print(f'{self.name}, error:{error}', flush=True)
+        else:
+            print(f'{self.name}, numbers:{numbers}', flush=True)
 
-def print_and_exit(signum, frame):
-    print(f'{getppid()}/{getpid()} caught signal {signal.Signals(signum).name} ({signum})', flush=True)
-    # TODO comment terminer le processus pour qu'il soit recréé proprement ?
+    def present_crash(self, p: Process):
+        print(f'{self.name}, exit:{p.exitcode}', flush=True)
+
+    def mute(self, b: int, i: int):
+        mutant = bytearray(self.bytecode)
+        original_byte = mutant[i]
+        mutant[i] = b
+        return BubleSort(mutant, f'sort#{i}:{original_byte:02x}->{b:02x}')
 
 
-def initialize_process():
-    for sig in (set(signal.Signals) - {signal.SIGKILL, signal.SIGSTOP}):
-        signal.signal(sig, print_and_exit)
+def abort(signum, _):
+    print(f'{getpid()}: {signum}', flush=True)
+    # exit(1)
+    kill(getpid(), signal.SIGINT)
 
 
-def safe_sort_10_elements(sort: BubleSort) -> (Tuple[int, int], BubleSort, List[int], Exception):
-    pidinfo = (getpid(), getppid())
-    numbers = [1, 6, 3, 7, 5, 9, 8, 2, 4, 10]
+def initialize_process(s: BubleSort):
+    print(f'init process {getpid()} (parent {getppid()}) for sort {s}', flush=True)
+
+    for s in signal.Signals:
+        signal.signal(s, signal.SIG_DFL)
+
+    signal.signal(signal.SIGSEGV, abort)
+
+
+def safe_sort_10_elements(s: BubleSort, q: Queue) -> (List[int], Exception):
+    initialize_process(s)
+    n = [1, 6, 3, 7, 5, 9, 8, 2, 4, 10]
     try:
-        return pidinfo, sort, sort.sort(numbers), None
-    except Exception as exception:
-        return pidinfo, sort, None, exception
-
-
-def present_result(info, sort, sorted_numbers, error):
-    (pid, ppid) = info
-    if error:
-        print(f'[{ppid}|{pid}] sort:{sort}, error:{error}', flush=True)
+        m = s.sort(n)
+    except Exception as e:
+        q.put((None, e))
     else:
-        print(f'[{ppid}|{pid}] sort:{sort}, numbers:{sorted_numbers}', flush=True)
+        q.put((m, None))
 
 
-# Compilation du tri original
+def sort_10_elements_in_subprocess(s: BubleSort) -> (BubleSort, List[int], Exception):
+    q = Queue(maxsize=1)
+    p = Process(target=safe_sort_10_elements, name=s.name, args=(s, q))
+    p.start()
+    try:
+        n, e = q.get(timeout=.25)
+        return s, n, e
+    except Exception as e:
+        return s, None, e
+    finally:
+        q.close()
+        p.join()
+
+
 original_sort = BubleSort.original()
 
+sorts = [original_sort.mute(0x01, i) for i in range(0, 10)]
 
-# Mutation du tri original
-def make_mutant(mutated_byte, byte_index):
-    mutated_bytecode = bytearray(original_sort.bytecode)
-    original_byte = mutated_bytecode[byte_index]
-    mutated_bytecode[byte_index] = mutated_byte
-    return BubleSort(mutated_bytecode, f'b#{byte_index}:{original_byte:02x}->{mutated_byte:02x}')
+results = map(sort_10_elements_in_subprocess, sorts)
 
-
-make_specific_mutant = partial(make_mutant, 0x00)
-
-# Tris comme jeu de données
-sorts = chain([original_sort], map(make_specific_mutant, range(0, 30)))
-
-# Traitement parallèle du jeu de données
-# TODO le premier processus qui plante semble figer l'ensemble du Pool
-p = Pool(processes=4, maxtasksperchild=1, initializer=initialize_process)
-results = p.map(safe_sort_10_elements, sorts)
-for pidinfo, sort, sorted_numbers, exception in results:
-    present_result(pidinfo, sort, sorted_numbers, exception)
-p.close()
-p.join()
+for s, n, e in results:
+    s.present_result(n, e)

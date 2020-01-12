@@ -1,6 +1,4 @@
-from random import randint
 from typing import List, Callable
-from itertools import chain
 
 
 class Being:
@@ -9,17 +7,14 @@ class Being:
         self.genotype = genotype
         self.phenotype = phenotype
 
-    def to_dict(self):
-        return {
-            'phenotype': self.phenotype,
-            'genotype': self.genotype.hex()
-        }
-
     def __hash__(self):
         return hash(self.initial_genotype)
 
     def __eq__(self, other):
         return self.initial_genotype == other.initial_genotype
+
+    def reproduce(self, population):
+        return self
 
 
 Population = List[Being]
@@ -39,13 +34,3 @@ def generate(initial_population: Population, lifecycle: Cycle, stop: StopGenerat
     while not stop(rank, population):
         rank, population = rank + 1, lifecycle(population)
         yield rank, population
-
-
-def select_over_all_livings(population: Population, life: Life, selection: Selection) -> Population:
-    lives = (life(being, population) for being in population)
-    all_lives = list(chain.from_iterable(lives))
-    return selection(all_lives)
-
-
-def random_genome(size: int) -> bytearray:
-    return bytearray(randint(0x00, 0xff) for _ in range(size))

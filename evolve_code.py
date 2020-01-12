@@ -1,8 +1,8 @@
 from sys import stdout
 from typing import Sequence
 
-from genetic_algorithm.mutation import flip_random_bit_in_random_byte, build_hazard
-from genetic_algorithm.scenario.converge import Converge
+from genetic_algorithm.mutation import replace_random_bit, Hazard
+from genetic_algorithm.simulation import Simulation
 from genetic_algorithm.species.python_code import source_code_to_bytecode, PythonBeing, clone_being
 
 '''
@@ -26,14 +26,14 @@ def count_sorted(unsorted_list: Sequence[int]) -> int:
     return sum(1 for n, m in zip(unsorted_list, sorted_list) if n != m)
 
 
-run = Converge(
+run = Simulation(
     survival_percentile=1 / 2,
     initial_being=lambda: PythonBeing(bytearray(prototype_bytecode)),
     initial_population_size=100,
     reproduce_being=clone_being,
-    hazard=build_hazard(
+    hazard=Hazard.build(
         mutation_probability=1 / 10,
-        mutation_distribution={flip_random_bit_in_random_byte: 1},
+        mutation_distribution={replace_random_bit: 1},
         maximum_number_of_mutations=2),
     fitness=lambda b: count_sorted(b.phenotype),
     maximum_rank=10000
