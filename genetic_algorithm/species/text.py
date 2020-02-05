@@ -5,20 +5,21 @@ from genetic_algorithm.population import Being, Population
 
 
 class TextBeing(Being):
-    def __init__(self, genotype: bytearray):
-        phenotype = genotype.decode('UTF-8', 'replace')
+    def __init__(self, genotype: bytearray, encoding):
+        phenotype = genotype.decode(encoding, 'replace')
         super().__init__(genotype, phenotype)
+        self.encoding = encoding
 
     def reproduce(self, _: Population) -> Being:
         genome_copy = bytearray(self.genotype)
-        clone = TextBeing(genome_copy)
+        clone = TextBeing(genome_copy, self.encoding)
         return clone
 
 
 class TextTarget:
-    def __init__(self, text):
-        genome = bytearray(text.encode('UTF-8', 'replace'))
-        self.being = TextBeing(genome)
+    def __init__(self, text, encoding):
+        genome = bytearray(text.encode(encoding, 'replace'))
+        self.being = TextBeing(genome, encoding)
 
     def fitness_by_genotype(self, being: Being):
         return selection.bytearray_bit_distance(being.genotype, self.being.genotype)
@@ -28,7 +29,7 @@ class TextTarget:
 
     def random_being(self):
         genome = random_genome(len(self.being.genotype))
-        return TextBeing(genome)
+        return TextBeing(genome, self.being.encoding)
 
     def alphabet(self):
         return list(set(self.being.phenotype))

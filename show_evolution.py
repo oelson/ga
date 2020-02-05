@@ -3,16 +3,16 @@ from matplotlib import pyplot as plt
 
 from genetic_algorithm import mutation
 from genetic_algorithm.simulation import Simulation
-from genetic_algorithm.species.unicode import TextTarget
+from genetic_algorithm.species.text import TextTarget
 from genetic_algorithm.presentation import byte_string
 
-target = TextTarget('le cadavre exquis boira le vin nouveau')
+target = TextTarget('le cadavre exquis boira le vin nouveau', 'ascii')
 
 run = Simulation(
     survival_percentile=1 / 8,
     initial_being=target.random_being,
     initial_population_size=30,
-    maximum_rank=100000,
+    maximum_rank=10000,
 
     hazard=mutation.Hazard.build(
         mutation_probability=1 / 2,
@@ -23,7 +23,7 @@ run = Simulation(
         },
         maximum_number_of_mutations=1),
 
-    fitness=target.fitness_by_genotype,
+    fitness=target.fitness_by_phenotype,
 )
 
 ranks = []

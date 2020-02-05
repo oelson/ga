@@ -6,9 +6,9 @@ from genetic_algorithm import mutation
 from genetic_algorithm.population import Being
 from genetic_algorithm.simulation import Simulation
 from genetic_algorithm.presentation import binary_string
-from genetic_algorithm.species.unicode import TextTarget
+from genetic_algorithm.species.text import TextTarget
 
-target = TextTarget('cadavre')
+target = TextTarget('cadavre', 'UTF-8')
 maximum_rank = 1000
 number_of_runs_per_simulation = 2
 fitness_function_space = [target.fitness_by_phenotype, target.fitness_by_genotype]
